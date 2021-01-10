@@ -1,9 +1,11 @@
 import React from 'react'
 import { useState } from 'react'
+
+import ReactAudioPlayer from 'react-audio-player'
+
 import './App.css';
 
 import { AgGridReact } from 'ag-grid-react';
-
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 
@@ -18,7 +20,8 @@ function App() {
     // setUrl('https://www.xeno-canto.org/api/2/recordings?query=' + query)
     var url = 'https://www.xeno-canto.org/api/2/recordings?query=' + finalQuery + '+q:A+year:2021'
     console.log(url)
-    fetch(url)
+    const proxyUrl = 'https://cors-anywhere.herokuapp.com/'
+    fetch(proxyUrl + url)
     .then(response => response.json())
     .then(data => setRecordings(data.recordings))
   }
@@ -29,19 +32,32 @@ function App() {
 
   const columns = [
     {
-      field: 'file'
+      headerName: 'Species',
+      field: 'en',
+      sortable: true
     },
     {
-      field: 'date'
+      headerName: 'Sound',
+      field: 'file',
+      cellRendererFramework: params =>
+      <ReactAudioPlayer
+        src = {params.value}
+        controls
+      />
     },
     {
-      field: 'cnt'
+      field: 'date',
+      sortable: true,
+      sort: 'desc'
     },
     {
-      field: 'type'
+      headerName: 'Country',
+      field: 'cnt',
+      sortable: true
     },
     {
-      field: 'rmk'
+      field: 'type',
+      sortable: true
     }
 
   ]
@@ -51,10 +67,14 @@ function App() {
       <input type = "text" name = "query" value = {query} onChange = {inputChanged} />
       <button onClick = {() => getRecordings()}>Search</button><br />
       <div className = 'ag-theme-alpine'
-      style = {{height: 560, width: '40%', margin: 'auto'}}>
+      style = {{height: 560, width: '80%', margin: 'auto'}}>
         <AgGridReact
           rowData = {recordings}
           columnDefs = {columns}
+          resizable = 'true'
+          sizeColumnsToFit
+          skipHeaderOnAutoSize
+          autoSizeAllColumns
         >
 
         </AgGridReact>
