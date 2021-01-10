@@ -17,8 +17,7 @@ function App() {
   const getRecordings = () => {
     var finalQuery = query.trim()
     finalQuery = query.replace(' ', '+')
-    // setUrl('https://www.xeno-canto.org/api/2/recordings?query=' + query)
-    var url = 'https://www.xeno-canto.org/api/2/recordings?query=' + finalQuery + '+q:A+year:2021'
+    var url = 'https://www.xeno-canto.org/api/2/recordings?query=' + finalQuery + '+q:A+len_gt:5'
     console.log(url)
     const proxyUrl = 'https://cors-anywhere.herokuapp.com/'
     fetch(proxyUrl + url)
@@ -39,6 +38,7 @@ function App() {
     {
       headerName: 'Sound',
       field: 'file',
+      width: '360%',
       cellRendererFramework: params =>
       <ReactAudioPlayer
         src = {params.value}
@@ -57,6 +57,7 @@ function App() {
     },
     {
       field: 'type',
+      width: '200%',
       sortable: true
     }
 
@@ -67,14 +68,16 @@ function App() {
       <input type = "text" name = "query" value = {query} onChange = {inputChanged} />
       <button onClick = {() => getRecordings()}>Search</button><br />
       <div className = 'ag-theme-alpine'
-      style = {{height: 560, width: '80%', margin: 'auto'}}>
+      style = {{height: 620, width: '80%', margin: 'auto'}}>
         <AgGridReact
           rowData = {recordings}
           columnDefs = {columns}
-          resizable = 'true'
+          resizable
           sizeColumnsToFit
           skipHeaderOnAutoSize
           autoSizeAllColumns
+          pagination
+          paginationAutoPageSize
         >
 
         </AgGridReact>
