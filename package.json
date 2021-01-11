@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^12.1.10",
     "ag-grid-community": "^25.0.0",
     "ag-grid-react": "^25.0.0",
+    "google-translate": "^3.0.0",
     "react": "^17.0.1",
     "react-audio-player": "^0.14.0",
     "react-dom": "^17.0.1",

@@ -9,20 +9,30 @@ import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 
+import { googleTranslate } from './utils/googleTranslate'
+
 function App() {
 
   const [query, setQuery] = useState('')
   const [recordings, setRecordings] = useState([])
+  const [headerText, setText] = useState('')
 
   const getRecordings = () => {
     var finalQuery = query.trim()
     finalQuery = query.replace(' ', '+')
+    setText('Results for ' + query)
     var url = 'https://www.xeno-canto.org/api/2/recordings?query=' + finalQuery + '+q:A+len_gt:5'
     console.log(url)
     const proxyUrl = 'https://cors-anywhere.herokuapp.com/'
     fetch(proxyUrl + url)
     .then(response => response.json())
     .then(data => setRecordings(data.recordings))
+  }
+
+  const getTranslation = () => {
+    googleTranslate.translate(query, 'en', function(err, translation) {
+      setQuery(translation.translatedText.toLowerCase())
+    })
   }
 
   const inputChanged = (event) => {
@@ -57,7 +67,6 @@ function App() {
     },
     {
       field: 'type',
-      width: '200%',
       sortable: true
     }
 
@@ -66,7 +75,10 @@ function App() {
   return (
     <div className="App">
       <input type = "text" name = "query" value = {query} onChange = {inputChanged} />
-      <button onClick = {() => getRecordings()}>Search</button><br />
+      <button onClick = {() => getRecordings()}>Search</button><button onClick = {() => getTranslation()}>Translate</button><br />
+      <h2>
+        {headerText}
+      </h2>
       <div className = 'ag-theme-alpine'
       style = {{height: 620, width: '80%', margin: 'auto'}}>
         <AgGridReact
