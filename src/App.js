@@ -120,8 +120,10 @@ function App() {
         {headerText}
       </h2>
 
-      <div className = 'ag-theme-alpine'
-      style = {{height: 620, width: '80%', margin: 'auto'}}>
+      <div 
+        className = 'ag-theme-alpine'
+        style = {{height: 520, width: '96%', maxWidth: 1200, margin: 'auto'}}
+      >
         <AgGridReact
           rowData = {recordings}
           columnDefs = {columns}
