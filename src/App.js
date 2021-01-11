@@ -29,7 +29,7 @@ function App() {
     finalQuery = query.replace(' ', '+')
     setText('Results for ' + query)
     var url = 'https://www.xeno-canto.org/api/2/recordings?query=' + finalQuery + '+q:A+len_gt:5'
-    const proxyUrl = 'https://cors-anywhere.herokuapp.com/'
+    const proxyUrl = 'https://warm-ravine-33686.herokuapp.com/'
     fetch(proxyUrl + url)
     .then(response => response.json())
     .then(data => setRecordings(data.recordings))
