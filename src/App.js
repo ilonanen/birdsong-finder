@@ -11,7 +11,7 @@ import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 
 import { googleTranslate } from './utils/googleTranslate'
 
-import { Button, TextField } from '@material-ui/core'
+import { Button, TextField, Tooltip } from '@material-ui/core'
 import TranslateIcon from '@material-ui/icons/Translate'
 import SearchIcon from '@material-ui/icons/Search'
 
@@ -26,7 +26,6 @@ function App() {
     finalQuery = query.replace(' ', '+')
     setText('Results for ' + query)
     var url = 'https://www.xeno-canto.org/api/2/recordings?query=' + finalQuery + '+q:A+len_gt:5'
-    console.log(url)
     const proxyUrl = 'https://cors-anywhere.herokuapp.com/'
     fetch(proxyUrl + url)
     .then(response => response.json())
@@ -54,10 +53,10 @@ function App() {
       field: 'file',
       width: '360%',
       cellRendererFramework: params =>
-      <ReactAudioPlayer
-        src = {params.value}
-        controls
-      />
+        <ReactAudioPlayer
+          src = {params.value}
+          controls
+        />
     },
     {
       field: 'date',
@@ -70,21 +69,24 @@ function App() {
       sortable: true
     },
     {
+      headerName: 'Sound type',
       field: 'type',
-      sortable: true
+      sortable: true 
     }
 
   ]
 
   return (
     <div className = 'App'>
-      <TextField 
-        label = 'Bird' 
-        variant = 'outlined' 
-        name = "query" 
-        value = {query} 
-        onChange = {inputChanged} 
-      />
+      <Tooltip title = "Enter bird species or country to search for recordings">
+        <TextField 
+          label = 'Bird/country' 
+          variant = 'outlined' 
+          name = "query" 
+          value = {query} 
+          onChange = {inputChanged} 
+          />
+        </Tooltip>
       <br />     
       <Button 
         variant = 'contained'
@@ -104,10 +106,12 @@ function App() {
       >
           Translate
       </Button>
-          <br />
+      <br />
+
       <h2>
         {headerText}
       </h2>
+
       <div className = 'ag-theme-alpine'
       style = {{height: 620, width: '80%', margin: 'auto'}}>
         <AgGridReact
