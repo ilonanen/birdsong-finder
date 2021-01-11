@@ -11,6 +11,10 @@ import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 
 import { googleTranslate } from './utils/googleTranslate'
 
+import { Button, TextField } from '@material-ui/core'
+import TranslateIcon from '@material-ui/icons/Translate'
+import SearchIcon from '@material-ui/icons/Search'
+
 function App() {
 
   const [query, setQuery] = useState('')
@@ -73,9 +77,34 @@ function App() {
   ]
 
   return (
-    <div className="App">
-      <input type = "text" name = "query" value = {query} onChange = {inputChanged} />
-      <button onClick = {() => getRecordings()}>Search</button><button onClick = {() => getTranslation()}>Translate</button><br />
+    <div className = 'App'>
+      <TextField 
+        label = 'Bird' 
+        variant = 'outlined' 
+        name = "query" 
+        value = {query} 
+        onChange = {inputChanged} 
+      />
+      <br />     
+      <Button 
+        variant = 'contained'
+        color = 'primary'
+        size = 'small'
+        startIcon = {<SearchIcon />}
+        onClick = {() => getRecordings()}
+        >
+          Search
+      </Button>
+      <Button 
+        variant = 'contained'
+        color = 'secondary'
+        size = 'small'
+        startIcon = {<TranslateIcon />}
+        onClick = {() => getTranslation()}
+      >
+          Translate
+      </Button>
+          <br />
       <h2>
         {headerText}
       </h2>
