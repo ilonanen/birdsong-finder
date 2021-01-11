@@ -11,15 +11,18 @@ import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 
 import { googleTranslate } from './utils/googleTranslate'
 
-import { Button, TextField, Tooltip } from '@material-ui/core'
+import { Button, TextField, Tooltip, Popper } from '@material-ui/core'
 import TranslateIcon from '@material-ui/icons/Translate'
 import SearchIcon from '@material-ui/icons/Search'
+import HelpIcon from '@material-ui/icons/Help'
 
 function App() {
 
   const [query, setQuery] = useState('')
   const [recordings, setRecordings] = useState([])
   const [headerText, setText] = useState('')
+  const [anchorEl, setAnchorEl] = useState(null)
+  const [open, setOpen] = useState(false)
 
   const getRecordings = () => {
     var finalQuery = query.trim()
@@ -40,6 +43,11 @@ function App() {
 
   const inputChanged = (event) => {
     setQuery(event.target.value)
+  }
+
+  const getHelp = (event) => {
+    setAnchorEl(anchorEl ? null : event.currentTarget)
+    setOpen(!open)
   }
 
   const columns = [
@@ -127,6 +135,34 @@ function App() {
 
         </AgGridReact>
       </div>
+      <Button 
+        variant = 'contained'
+        color = 'default'
+        size = 'small'
+        startIcon = {<HelpIcon />}
+        onClick = {getHelp}
+      >
+          Help
+      </Button>
+      <Popper open={open} anchorEl = {anchorEl}>
+        <div style = {{
+          border: '1px solid',
+          padding: '20px',
+          margin: 'auto',
+          width: '80%',
+          maxWidth: 400,
+          backgroundColor: '#FFFFFF'
+        }}>
+          <p>
+            Search for bird song recordings by bird species in English or Latin or by country. 
+            You may use the Translate button to translate the species/country to English first and then search. 
+            Listen to the recordings in the Sound column by clicking play.
+          </p>
+          <p>
+            Please note that the translations provided by Google may not always be correct. The data sheet remains empty if no recordings are found.
+          </p>
+        </div>
+      </Popper>
     </div>
   );
 }
