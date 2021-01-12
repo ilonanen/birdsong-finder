@@ -33,11 +33,15 @@ function App() {
     fetch(proxyUrl + url)
     .then(response => response.json())
     .then(data => setRecordings(data.recordings))
+    .catch(err => window.alert(err))
   }
 
   const getTranslation = () => {
     googleTranslate.translate(query, 'en', function(err, translation) {
       setQuery(translation.translatedText.toLowerCase())
+      if (err) {
+        window.alert(err)
+      }
     })
   }
 

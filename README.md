@@ -1,5 +1,5 @@
 Web app to easily find bird song recordings.
-Deployed at https://birdsong-app-29564.herokuapp.com/
+Deployed at https://birdsong-app-ie.herokuapp.com/
 
 Enter the bird species in English to directly search for sound recordings or first translate it from any language.
 Note: Google Translate does not yet handle the species names very well, so check the translation before searching.
